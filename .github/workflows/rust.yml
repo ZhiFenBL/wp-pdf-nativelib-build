@@ -1,0 +1,72 @@
+name: EPUB [Uniffi] | Rust CI | JVM
+
+on:
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  
+jobs:
+  rust-build-windows:
+    runs-on: windows-2025
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install toolchain
+      run: rustup target add x86_64-pc-windows-msvc
+
+    - name: Build
+      run: cargo build --release
+      
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: builds-windows-aarch64
+        path: /target/release/typst_as_lib.dll
+        if-no-files-found: error
+        
+  rust-build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Install toolchain
+      run: rustup target add x86_64-unknown-linux-gnu
+
+    - name: Build
+      run: cargo build --release
+      
+    - name: Generate Kotlin Bindings
+      working-directory: ${{ env.WORKING_DIR }}
+      run: cargo run --bin uniffi-bindgen generate wp-epub-mini/src/wp_epub_mini.udl --language kotlin --out-dir ./bindings/
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: builds-linux-x86_64
+        path: /target/release/libtypst_as_lib.so
+        if-no-files-found: error
+
+  rust-build-macos-aarch64:
+    runs-on: macos-15
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install toolchain
+      run: rustup target add aarch64-apple-darwin
+
+    - name: Build
+      run: cargo build --release
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: builds-macos-aarch64
+        path: /target/release/libtypst_as_lib.dylib
+        if-no-files-found: error
