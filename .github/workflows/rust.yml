@@ -23,7 +23,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: builds-windows-aarch64
-        path: /target/release/typst_as_lib.dll
+        path: target/release/typst_as_lib.dll
         if-no-files-found: error
         
   rust-build-linux:
@@ -45,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: builds-linux-x86_64
-        path: /target/release/libtypst_as_lib.so
+        path: target/release/libtypst_as_lib.so
         if-no-files-found: error
 
   rust-build-macos-aarch64:
@@ -64,5 +64,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: builds-macos-aarch64
-        path: /target/release/libtypst_as_lib.dylib
+        path: target/release/libtypst_as_lib.dylib
         if-no-files-found: error
