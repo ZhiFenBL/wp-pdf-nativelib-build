@@ -41,15 +41,3 @@ typst = "0.13.1"
 
 [lib]
 crate-type = ["cdylib"]
-
-[[example]]
-name = "resolve_packages"
-required-features = ["packages"]
-
-[[example]]
-name = "font_searcher"
-required-features = ["typst-kit-fonts", "typst-kit-embed-fonts"]
-
-[[example]]
-name = "html"
-required-features = ["typst-html"]
