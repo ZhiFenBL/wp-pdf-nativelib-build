@@ -1,4 +1,4 @@
-name: EPUB [Uniffi] | Rust CI | JVM
+name: Rust CI | JVM
 
 on:
   workflow_dispatch:
